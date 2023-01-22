@@ -27,12 +27,15 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
+
         login.setOnClickListener {
+
             val user = database.getUserById(phone.text.toString())
             if (user != null){
-                startActivity(Intent(applicationContext,HomeActivity::class.java))
-                Log.d("TAG", "onCreate:$user ")
+                viewmodel.phone = user.phone
 
+                startActivity(Intent(applicationContext,HomeActivity::class.java).putExtra("phone",user.phone))
+                Log.d("TAG", "onCreate:$user")
             }
             else{
                 Toast.makeText(applicationContext,"This User does not exist! Please go back to register",Toast.LENGTH_LONG).show()

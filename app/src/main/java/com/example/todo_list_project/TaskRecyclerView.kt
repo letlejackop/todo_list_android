@@ -3,6 +3,7 @@ package com.example.todo_list_project
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -15,21 +16,28 @@ class TaskRecyclerView(
     inner class TaskViewHolder(view: View): RecyclerView.ViewHolder(view){
         private val statusImage = view.findViewById<ImageView>(R.id.statusImage)
         private val note = view.findViewById<TextView>(R.id.note)
+        private val change = view.findViewById<Button>(R.id.change)
         private val root = view.findViewById<ConstraintLayout>(R.id.root)
-
-
 
         fun bind (task:TaskModel){
             note.text = task.task_note
             var status =R.drawable.baseline_remove_circle_24
             if (task.isCompleted)
                 status =R.drawable.baseline_check_circle_24
-
             statusImage.setImageResource(status)
             val context =root.context
+
+            change.setOnClickListener {
+                val database = TaskDatabase(context)
+                task.isCompleted= !task.isCompleted
+                database.changeTask(task.id,task.isCompleted)
+                status =R.drawable.baseline_remove_circle_24
+                if (task.isCompleted)
+                    status =R.drawable.baseline_check_circle_24
+                statusImage.setImageResource(status)
+            }
+
         }
-
-
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {

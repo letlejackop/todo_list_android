@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import androidx.lifecycle.ViewModelProvider
 
 class AddTaskActivity : AppCompatActivity() {
 
@@ -30,9 +31,9 @@ class AddTaskActivity : AppCompatActivity() {
                 }
             }
         }
-
+        val phone =intent.getStringExtra("phone").toString()
         add.setOnClickListener {
-            database.insertTask(task_name.text.toString(),completed)
+            database.insertTask(task_name.text.toString(),completed,phone)
             finish()
         }
     }
